@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Student Bean using Setter Injection -->
+    <bean id="student" class="com.exc.service.Student">
+        <property name="studentId" value="S001"/>
+        <property name="name" value="Alice Johnson"/>
+        <property name="grade" value="A"/>
+    </bean>
+
+    <!-- Engine bean -->
+    <bean id="engine" class="com.exc.service.Engine">
+        <constructor-arg value="V6"/>
+        <constructor-arg value="300"/>
+    </bean>
+
+    <!-- Car bean with constructor injection -->
+    <bean id="car" class="com.exc.service.Car">
+        <constructor-arg value="Sedan"/>
+        <constructor-arg ref="engine"/>
+        <constructor-arg value="2023"/>
+    </bean>
+
+<!--exercise 3-->
+    <bean id="book1" class="com.exc.service.Book">
+        <property name="title" value="Spring in Action"/>
+        <property name="author" value="Craig Walls"/>
+    </bean>
+
+    <bean id="book2" class="com.exc.service.Book">
+        <property name="title" value="Effective Java"/>
+        <property name="author" value="Joshua Bloch"/>
+    </bean>
+
+    <bean id="book3" class="com.exc.service.Book">
+        <property name="title" value="Clean Code"/>
+        <property name="author" value="Robert C. Martin"/>
+    </bean>
+
+    <!-- Library bean (Constructor + Setter Injection) -->
+    <bean id="library" class="com.exc.service.Library">
+        <constructor-arg>
+            <list>
+                <ref bean="book1"/>
+                <ref bean="book2"/>
+                <ref bean="book3"/>
+            </list>
+        </constructor-arg>
+        <property name="libraryName" value="City Central Library"/>
+    </bean>
+
+
+<!--    excercise 4-->
+
+    <!-- Department Bean (Prototype Scope) -->
+    <bean id="financeDepartment"
+          class="com.exc.service.Department"
+          scope="prototype">
+        <property name="name" value="Finance"/>
+        <property name="code" value="FIN"/>
+    </bean>
+
+    <!-- Employee 1 : Explicit Bean Reference -->
+    <bean id="employee1" class="com.exc.service.Employee">
+        <property name="name" value="John Smith"/>
+        <property name="position" value="Manager"/>
+        <property name="department" ref="financeDepartment"/>
+    </bean>
+
+    <!-- Employee 2 : Autowire byType -->
+    <bean id="employee2"
+          class="com.exc.service.Employee"
+          autowire="byType">
+        <property name="name" value="Sarah Parker"/>
+        <property name="position" value="Analyst"/>
+    </bean>
+
+<!--    exercise 5-->
+
+
+    <!-- Customer Bean -->
+    <bean id="customer" class="com.exc.service.Customer">
+        <property name="name" value="Alice Johnson"/>
+        <property name="membershipType" value="Gold"/>
+    </bean>
+
+    <!-- Product Beans -->
+    <bean id="product1" class="com.exc.service.Product">
+        <property name="name" value="Laptop"/>
+        <property name="price" value="75000"/>
+    </bean>
+
+    <bean id="product2" class="com.exc.service.Product">
+        <property name="name" value="Mouse"/>
+        <property name="price" value="1200"/>
+    </bean>
+
+    <bean id="product3" class="com.exc.service.Product">
+        <property name="name" value="Headphones"/>
+        <property name="price" value="3500"/>
+    </bean>
+
+    <!-- ShoppingCart Bean -->
+    <bean id="shoppingCart" class="com.exc.service.ShoppingCart">
+
+        <!-- Constructor Injection -->
+        <constructor-arg ref="customer"/>
+
+        <!-- Setter Injection with Collection + Inner Bean -->
+        <property name="products">
+            <list>
+                <ref bean="product1"/>
+                <ref bean="product2"/>
+                <ref bean="product3"/>
+
+                <!-- Inner Bean -->
+                <bean class="com.exc.service.Product">
+                    <property name="name" value="Keyboard"/>
+                    <property name="price" value="2500"/>
+                </bean>
+            </list>
+        </property>
+
+    </bean>
+
+
+</beans>

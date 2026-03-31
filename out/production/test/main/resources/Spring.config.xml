@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.mphasis.service"/>
+
+
+
+<bean id="greetService" class="com.mphasis.service.GreetService" scope="singleton" init-method="init" destroy-method="destroy" lazy-init="true">
+<!--        multiple instances created. more memory no resource sharing-->
+<!--        default is singleton, creates only one instance and shares that one resource-->
+<!--        init is used to initialize the coponents like variables and methods-->
+<!--        destroy is used to close open connection-->
+       <constructor-arg value="Welcome to the Spring yo"/>
+    </bean>
+
+    <bean id="mailServerConfig"
+          class="com.mphasis.service.MailServerConfig"
+          scope="singleton">
+        <constructor-arg value="34"/>
+        <constructor-arg value="admin"/>
+        <constructor-arg value="secret"/>
+<!--        <property name="ip" value="34"/>-->
+<!--        <property name="login" value="admin"/>-->
+<!--        <property name="token" value="secret"/>-->
+    </bean>
+
+
+    <bean id="emailService"
+          class="com.mphasis.service.EmailService">
+        <constructor-arg  ref="mailServerConfig"/>
+<!--          ref should exactly match with class id-->
+<!--        //I am passing the object thats why ref-->
+    </bean>
+
+
+    <bean id="orderService" class="com.mphasis.service.OrderService" >
+<!--         Constructor Injection -->
+        <constructor-arg ref="emailService"/>
+<!--        <property name="emailService" ref="emailService"/>-->
+    </bean>
+
+<!--    wiring dependencies of class-->
+
+</beans>
+
+
+
+
